@@ -2,10 +2,11 @@
 // here we initialize all the services like supabase when the app is launched
 
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class Inits {
   static Future initSupabase() async {
-    await Supabase.initialize(url: 'https://csktohchkexpgswyeiwi.supabase.co',
-      anonKey: 'sb_publishable_eTCHYeQRQw6YpfhTLYvHJQ_oavMb3qC',);
+    await Supabase.initialize(url: dotenv.env['SUPABASE_URL']!,
+      anonKey: dotenv.env['SUPABASE_ANON_KEY']!,);
   }
 }
