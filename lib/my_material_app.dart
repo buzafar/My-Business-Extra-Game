@@ -1,19 +1,28 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:my_business_extra/launch_screen.dart';
 import 'package:my_business_extra/router/app_router.dart';
+import 'package:my_business_extra/services/user_service.dart';
+
+import 'global_state_providers/current_user_provider.dart';
 
 class MyMaterialApp extends StatelessWidget {
   MyMaterialApp({super.key});
 
-  final _appRouter = AppRouter();
+
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: _appRouter.config(),
-      theme: ThemeData(colorSchemeSeed: Colors.green, textTheme: GoogleFonts.poppinsTextTheme()),
+
+
+    return Consumer(
+      builder: (context, ref, child) {
+        return MaterialApp.router(
+          routerConfig: ref.read(appRouterProvider).config(),
+          theme: ThemeData(colorSchemeSeed: Colors.green, textTheme: GoogleFonts.poppinsTextTheme()),
+        );
+      }
     );
   }
 }

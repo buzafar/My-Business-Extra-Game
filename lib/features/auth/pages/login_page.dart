@@ -5,6 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:my_business_extra/components/primary_button.dart';
 import 'package:my_business_extra/designs/values.dart';
 
+import '../../../failure.dart';
 import '../../../router/app_router.gr.dart';
 import '../providers/auth_provider.dart';
 
@@ -30,8 +31,9 @@ class LoginPage extends ConsumerWidget {
           }
         },
         error: (err, _) {
+          print(err.toString());
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(err.toString())),
+            SnackBar(content: Text((err as Failure).message), behavior: SnackBarBehavior.floating),
           );
         },
       );
@@ -52,19 +54,19 @@ class LoginPage extends ConsumerWidget {
                 Gap(48),
                 SizedBox(
                   width: double.infinity,
-                  child: PrimaryButton(
+                  child: FilledButton(
                     onPressed: () {
                       ref.read(authControllerProvider.notifier).signIn(
                         email.text,
                         password.text,
                       );
                     },
-                    text: "Login",
+                    child: ref.watch(authControllerProvider).isLoading ? CircularProgressIndicator(color: Colors.white,) : Text("Login"),
                   ),
                 ),
                 Gap(64),
                 TextButton(
-                  onPressed: () => context.router.push(const SignupRoute()),
+                  onPressed: () => context.router.replace(const SignupRoute()),
                   child: const Text("Create an account"),
                 ),
               ],

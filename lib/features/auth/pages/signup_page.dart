@@ -22,7 +22,19 @@ class SignupPage extends ConsumerWidget {
     final email = TextEditingController();
     final password = TextEditingController();
 
-
+    ref.listen(authControllerProvider, (prev, next) {
+      next.whenOrNull(
+        data: (user) {
+          if (user != null) {
+            context.router.replace(LoginRoute());
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("✅ Account successfully created. Now you can log in"), behavior: SnackBarBehavior.floating,),
+            );
+          }
+        }
+      );
+    });
+    
 
     return Scaffold(
       body: SafeArea(
@@ -51,7 +63,7 @@ class SignupPage extends ConsumerWidget {
                 ),
                 Gap(64),
                 TextButton(
-                  onPressed: () => context.router.push(const LoginRoute()),
+                  onPressed: () => context.router.replace(const LoginRoute()),
                   child: const Text("Log in to your account"),
                 ),
               ],

@@ -1,7 +1,8 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:my_business_extra/models/user.dart';
+
 class AppConstants {
 
-  // here goes constants, the values that do not change
-  final String errorMessage = "An Error has occured";
 
 
 }
