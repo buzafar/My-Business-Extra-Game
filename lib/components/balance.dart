@@ -7,7 +7,7 @@ import '../helpers/format_price.dart';
 class Balance extends StatelessWidget {
   const Balance({super.key, required this.balance});
 
-  final double balance;
+  final num balance;
 
   @override
   Widget build(BuildContext context) {

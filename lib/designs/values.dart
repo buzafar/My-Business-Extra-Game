@@ -4,4 +4,4 @@
 
 
 
-final double screenPadding = 20;
+final double screenPadding = 16;

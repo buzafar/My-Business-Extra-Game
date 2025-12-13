@@ -27,7 +27,7 @@ class LoginPage extends ConsumerWidget {
       next.whenOrNull(
         data: (user) {
           if (user != null) {
-            context.router.replace(const HomeRoute());
+            context.router.replace(const LoadingRoute());
           }
         },
         error: (err, _) {

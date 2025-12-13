@@ -12,7 +12,16 @@ class AuthService {
 
   Future<AuthResponse> signIn(String email, String password) async {
     final authResponse = await supabase.auth.signInWithPassword(email: email, password: password);
-    await ref.read(userServiceProvider).createUserInTable();
+
+    // user is not signed in
+    if (authResponse.user == null) {
+      return authResponse;
+    }
+
+
+    final userId = await ref.read(userServiceProvider).createUserInTable(authResponse.user!);
+    await ref.read(userServiceProvider).createWarehouseForUser(userId);
+    await ref.read(userServiceProvider).createFactoryForUser(userId);
     return authResponse;
   }
 

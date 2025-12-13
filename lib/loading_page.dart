@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:my_business_extra/global_state_providers/app_ready_provider.dart';
+import 'package:my_business_extra/global_state_providers/load_initial_data_provider.dart';
 import 'package:my_business_extra/global_state_providers/current_user_provider.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:my_business_extra/failure.dart';
@@ -21,7 +21,7 @@ class LoadingPage extends ConsumerWidget {
     // final provider = ref.watch(currentUserProvider);
 
 
-    ref.listen(appReadyProvider, (prev, next) {
+    ref.listen(loadInitialDataProvider, (prev, next) {
       next.whenData((_) {
         context.router.replace(HomeRoute());
       });

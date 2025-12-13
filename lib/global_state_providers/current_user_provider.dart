@@ -3,14 +3,14 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:my_business_extra/services/user_service.dart';
 import '../models/user.dart';
 
-final currentUserProvider = StateNotifierProvider<CurrentUserStateNotifier, AsyncValue<UserModel?>>((ref) {
+final currentUserProvider = StateNotifierProvider<CurrentUserStateNotifier, AsyncValue<UserModel>>((ref) {
   return CurrentUserStateNotifier(ref);
 });
 
 
-class CurrentUserStateNotifier extends StateNotifier<AsyncValue<UserModel?>> {
+class CurrentUserStateNotifier extends StateNotifier<AsyncValue<UserModel>> {
 
-  CurrentUserStateNotifier(this.ref) : super(AsyncData(null)) {
+  CurrentUserStateNotifier(this.ref) : super(AsyncLoading()) {
     loadUser();
   }
 

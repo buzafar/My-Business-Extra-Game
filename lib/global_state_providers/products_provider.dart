@@ -9,7 +9,7 @@ final productsProvider = StateNotifierProvider((ref) {
 
 
 class ProductsNotifier extends StateNotifier<AsyncValue<List<Product>>> {
-  ProductsNotifier(this.ref) : super(AsyncData([])) {
+  ProductsNotifier(this.ref) : super(AsyncLoading()) {
     loadProducts();
   }
 

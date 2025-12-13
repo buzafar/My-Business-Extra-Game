@@ -3,7 +3,7 @@ class UserModel {
   final int id;
   final String createdAt;
   final String email;
-  double balance;
+  num balance;
   final String userId;
 
   UserModel({required this.id, required this.createdAt, required this.email, required this.balance, required this.userId});
@@ -23,7 +23,7 @@ class UserModel {
     int? id,
     String? createdAt,
     String? email,
-    double? balance,
+    num? balance,
     String? userId,
   }) {
     return UserModel(
