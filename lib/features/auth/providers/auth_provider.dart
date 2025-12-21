@@ -1,21 +1,18 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:my_business_extra/global_state_providers/current_user_provider.dart';
-import 'package:my_business_extra/failure.dart';
+import 'package:my_business_extra/helpers/failure.dart';
 import 'package:my_business_extra/services/auth_service.dart';
 import 'package:my_business_extra/services/user_service.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-
-
-final authControllerProvider = StateNotifierProvider<AuthController, AsyncValue<User?>>((ref) {
-  return AuthController(ref);
-});
-
-
+final authControllerProvider =
+    StateNotifierProvider<AuthController, AsyncValue<User?>>((ref) {
+      return AuthController(ref);
+    });
 
 class AuthController extends StateNotifier<AsyncValue<User?>> {
-  AuthController(this.ref): super(AsyncData(null));
+  AuthController(this.ref) : super(AsyncData(null));
 
   final Ref ref;
 
@@ -24,12 +21,12 @@ class AuthController extends StateNotifier<AsyncValue<User?>> {
 
     try {
       await ref.read(authServiceProvider).signIn(email, password);
-      state = AsyncData(ref
-          .read(authServiceProvider)
-          .currentUser);
+      state = AsyncData(ref.read(authServiceProvider).currentUser);
     } on AuthApiException catch (e, st) {
+      print(e);
       state = AsyncError(GeneralFailure(), st);
     } catch (e, st) {
+      print(e);
       state = AsyncError(GeneralFailure() as Failure, st);
     }
   }
@@ -47,12 +44,10 @@ class AuthController extends StateNotifier<AsyncValue<User?>> {
       } else {
         state = AsyncError(GeneralFailure(), st);
       }
-
     } catch (e, st) {
       state = AsyncError(GeneralFailure() as Failure, st);
     }
   }
-
 
   Future<void> signOut() async {
     await ref.read(authServiceProvider).signOut();

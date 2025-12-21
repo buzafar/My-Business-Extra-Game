@@ -1,24 +1,27 @@
-
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:my_business_extra/models/factory.dart';
 
 import '../services/factory_service.dart';
 
-final factoriesProvider = StateNotifierProvider((ref) {
-  return FactoriesNotifier(ref);
-});
+final factoriesProvider =
+    AsyncNotifierProvider<FactoriesNotifier, List<Factory>>(
+      () => FactoriesNotifier(),
+    );
 
-
-class FactoriesNotifier extends StateNotifier<AsyncValue<List<Factory>>> {
-  FactoriesNotifier(this.ref) : super(AsyncLoading()) {
-    loadFactories();
+// Notifier
+class FactoriesNotifier extends AsyncNotifier<List<Factory>> {
+  @override
+  Future<List<Factory>> build() async {
+    // This is automatically called once when the provider is first read
+    return ref.read(factoryServiceProvider).loadFactories();
   }
-  final Ref ref;
 
-  Future<void> loadFactories() async {
-    state = AsyncLoading();
-    state = AsyncData(await ref.read(factoryServiceProvider).loadFactories());
+  // Optional: manual reload method
+  Future<void> reloadFactories() async {
+    state = const AsyncValue.loading();
+    state = AsyncValue.data(
+      await ref.read(factoryServiceProvider).loadFactories(),
+    );
   }
 }

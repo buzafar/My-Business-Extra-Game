@@ -1,33 +1,42 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_business_extra/global_state_providers/current_user_provider.dart';
+import 'package:my_business_extra/global_state_providers/demands_provider.dart';
 import 'package:my_business_extra/global_state_providers/factories_provider.dart';
 import 'package:my_business_extra/global_state_providers/products_provider.dart';
 import 'package:my_business_extra/global_state_providers/user_factories_provider.dart';
 import 'package:my_business_extra/global_state_providers/warehouse_provider.dart';
 
-final loadInitialDataProvider = Provider<AsyncValue>((ref) {
+final loadInitialDataProvider =
+    AsyncNotifierProvider<LoadInitialDataNotifier, void>(
+      LoadInitialDataNotifier.new,
+    );
 
-  final currentUser = ref.watch(currentUserProvider);
-  final products = ref.watch(productsProvider);
-  final warehouse = ref.watch(warehouseProvider);
-  final factories = ref.watch(factoriesProvider);
-  final userFactories = ref.watch(userFactoriesProvider);
+class LoadInitialDataNotifier extends AsyncNotifier<void> {
+  // To initialize providers and make the load all the necesarry data from internet
+  // when the app is launched. This is used in loading_page.dart
 
-  if (currentUser.isLoading || products.isLoading || warehouse.isLoading || factories.isLoading || userFactories.isLoading) {
-    return const AsyncLoading();
+  @override
+  Future<void> build() async {
+    // The currentUser must always be loaded first
+    //becase its id is used to load all the other data below.
+    final currentUser = await ref.watch(currentUserProvider.future);
+    print("currentUser loaded");
+
+    final products = await ref.watch(productsProvider.future);
+    print("products loaded");
+
+    final factories = await ref.watch(factoriesProvider.future);
+    print("factories loaded");
+
+    final demands = await ref.watch(demandsProvider.future);
+    print("demands loaded");
+
+    final warehouse = await ref.watch(warehouseProvider.future);
+    print("warehouse loaded");
+
+    final userFactories = await ref.watch(userFactoriesProvider.future);
+    print("user factories loaded");
+
+    print("Everything loaded");
   }
-
-  if (currentUser.hasError) return AsyncError(currentUser.error!, currentUser.stackTrace!);
-  if (products.hasError) return AsyncError(products.error!, products.stackTrace!);
-  if (warehouse.hasError) return AsyncError(warehouse.error!, warehouse.stackTrace!);
-  if (factories.hasError) return AsyncError(factories.error!, factories.stackTrace!);
-  if (userFactories.hasError) return AsyncError(userFactories.error!, userFactories.stackTrace!);
-
-  if (currentUser.hasValue && products.hasValue && warehouse.hasValue && factories.hasValue
-  && userFactories.hasValue) {
-    return AsyncData(null);
-  }
-
-  return const AsyncLoading();
-
-});
+}

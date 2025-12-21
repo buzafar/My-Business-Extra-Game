@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:my_business_extra/components/primary_button.dart';
 import 'package:my_business_extra/designs/values.dart';
 
-import '../../../failure.dart';
+import '../../../helpers/failure.dart';
 import '../../../router/app_router.gr.dart';
 import '../providers/auth_provider.dart';
 

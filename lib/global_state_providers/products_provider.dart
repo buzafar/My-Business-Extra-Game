@@ -3,23 +3,23 @@ import 'package:flutter_riverpod/legacy.dart';
 import 'package:my_business_extra/models/product.dart';
 import 'package:my_business_extra/services/products_service.dart';
 
-final productsProvider = StateNotifierProvider((ref) {
-  return ProductsNotifier(ref);
-});
+final productsProvider = AsyncNotifierProvider<ProductsNotifier, List<Product>>(
+  () => ProductsNotifier(),
+);
 
-
-class ProductsNotifier extends StateNotifier<AsyncValue<List<Product>>> {
-  ProductsNotifier(this.ref) : super(AsyncLoading()) {
-    loadProducts();
+// The notifier
+class ProductsNotifier extends AsyncNotifier<List<Product>> {
+  @override
+  Future<List<Product>> build() async {
+    // This is automatically called once when the provider is first read
+    return ref.read(productsService).loadProducts();
   }
 
-
-  final Ref ref;
-
-
-  Future<void> loadProducts() async {
-    state = AsyncLoading();
-    state = AsyncData(await ref.read(productsService).loadProducts());
+  // Optional: if you want a manual reload function
+  Future<void> reloadProducts() async {
+    // set the state to loading
+    state = const AsyncValue.loading();
+    // fetch products
+    state = AsyncValue.data(await ref.read(productsService).loadProducts());
   }
-
 }

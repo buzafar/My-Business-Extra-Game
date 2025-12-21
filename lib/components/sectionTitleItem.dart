@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
-import '../assets.dart';
+import '../helpers/assets.dart';
 import '../designs/values.dart';
 
 

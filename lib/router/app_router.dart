@@ -5,21 +5,17 @@ import 'package:my_business_extra/router/app_router.gr.dart';
 import 'package:my_business_extra/services/auth_service.dart';
 import 'package:my_business_extra/services/user_service.dart';
 
-
-
 final appRouterProvider = Provider<AppRouter>((ref) {
   return AppRouter(ref);
 });
 
-
 @AutoRouterConfig()
 class AppRouter extends RootStackRouter {
-
   AppRouter(this.ref);
 
   final Ref ref;
 
-//Default route type
+  //Default route type
   @override
   RouteType get defaultRouteType => const RouteType.material(); //.cupertino, .adaptive
 
@@ -29,11 +25,11 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: HomeRoute.page, guards: [AuthGuard(ref)]),
     AutoRoute(page: SignupRoute.page),
-
+    AutoRoute(page: SellProductRoute.page),
 
     // never go to loading page if user is not signed in. otherwise, it will cause null error and app crashes
     // therefore AuthGuard is a must;
-    AutoRoute(page: LoadingRoute.page, initial: true, guards: [AuthGuard(ref)])
+    AutoRoute(page: LoadingRoute.page, initial: true, guards: [AuthGuard(ref)]),
   ];
 
   // @override
@@ -42,10 +38,7 @@ class AppRouter extends RootStackRouter {
   // ];
 }
 
-
-
 class AuthGuard extends AutoRouteGuard {
-
   AuthGuard(this.ref);
 
   final Ref ref;

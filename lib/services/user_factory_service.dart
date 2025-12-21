@@ -4,7 +4,6 @@ import 'package:my_business_extra/models/user_factory.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class UserFactoryService {
-
   UserFactoryService(this.ref);
 
   final Ref ref;
@@ -12,7 +11,10 @@ class UserFactoryService {
   final supabase = Supabase.instance.client;
 
   Future<List<UserFactory>> loadUserFactories({required int userId}) async {
-    final data = await supabase.from('user_factories').select().eq('user_id', userId);
+    final data = await supabase
+        .from('user_factories')
+        .select()
+        .eq('user_id', userId);
 
     final List<UserFactory> userFactories = [];
 
@@ -23,15 +25,13 @@ class UserFactoryService {
     return userFactories;
   }
 
-
   Future<void> setLastProducedTime(UserFactory userFactory) async {
-    await supabase.from('user_factories').update({"last_produced": userFactory.lastProduced.toUtc().toIso8601String()}).eq("id", userFactory.id);
+    await supabase
+        .from('user_factories')
+        .update({"last_produced": DateTime.now().toUtc().toIso8601String()})
+        .eq("id", userFactory.id);
   }
-
-
 }
-
-
 
 final userFactoryServiceProvider = Provider((ref) {
   return UserFactoryService(ref);
