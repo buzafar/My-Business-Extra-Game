@@ -43,6 +43,7 @@ class UserService {
     // the user already has a row in the database, no need to create
     if (response.isNotEmpty) {
       print("createUserInTable() - user already has a row");
+      print(response);
       return response[0]['id'];
     }
 
@@ -61,20 +62,24 @@ class UserService {
   }
 
   Future<void> createWarehouseForUser(int userId) async {
-    final response = await supabase
-        .from('warehouses')
-        .select()
-        .eq('user_id', userId);
+    try {
+      final response = await supabase
+          .from('warehouses')
+          .select()
+          .eq('user_id', userId);
 
-    // user already has a warehouse in the database, no need to create
-    if (response.isNotEmpty) {
-      return;
+      // user already has a warehouse in the database, no need to create
+      if (response.isNotEmpty) {
+        return;
+      }
+
+      await supabase.from('warehouses').insert({
+        "user_id": userId,
+        "capacity": 100,
+      });
+    } catch (e) {
+      print(e);
     }
-
-    await supabase.from('warehouses').insert({
-      "user_id": userId,
-      "capacity": 100,
-    });
   }
 
   Future<void> createFactoryForUser(int userId) async {

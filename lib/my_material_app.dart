@@ -21,11 +21,7 @@ class MyMaterialApp extends StatelessWidget {
           builder: (context, child) {
             return Stack(children: [child!, TopInfoBar()]);
           },
-          routerConfig: ref
-              .read(appRouterProvider)
-              .config(
-                // navRestorationScopeId: rootNavigatorKey.
-              ),
+          routerConfig: ref.read(appRouterProvider).config(),
           theme: ThemeData(
             colorSchemeSeed: Colors.green,
             textTheme: GoogleFonts.poppinsTextTheme(),

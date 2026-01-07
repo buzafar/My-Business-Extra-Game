@@ -11,7 +11,6 @@ import '../providers/auth_provider.dart';
 
 import 'package:auto_route/auto_route.dart';
 
-
 @RoutePage()
 class LoginPage extends ConsumerWidget {
   const LoginPage({super.key});
@@ -33,7 +32,10 @@ class LoginPage extends ConsumerWidget {
         error: (err, _) {
           print(err.toString());
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text((err as Failure).message), behavior: SnackBarBehavior.floating),
+            SnackBar(
+              content: Text((err as Failure).message),
+              behavior: SnackBarBehavior.floating,
+            ),
           );
         },
       );
@@ -46,22 +48,34 @@ class LoginPage extends ConsumerWidget {
           child: Center(
             child: Column(
               children: [
-                Text("Welcome to My Business Extra", style: Theme.of(context).textTheme.headlineLarge,),
+                Text(
+                  "Welcome to My Business Extra",
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
                 Gap(32),
-                TextField(controller: email, decoration: const InputDecoration(labelText: "Email")),
+                TextField(
+                  controller: email,
+                  decoration: const InputDecoration(labelText: "Email"),
+                ),
                 Gap(24),
-                TextField(controller: password, obscureText: true, decoration: const InputDecoration(labelText: "Password")),
+                TextField(
+                  controller: password,
+                  obscureText: true,
+                  decoration: const InputDecoration(labelText: "Password"),
+                ),
                 Gap(48),
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: () {
-                      ref.read(authControllerProvider.notifier).signIn(
-                        email.text,
-                        password.text,
-                      );
+                    onPressed: () async {
+                      await ref
+                          .read(authControllerProvider.notifier)
+                          .signIn(email.text, password.text);
                     },
-                    child: ref.watch(authControllerProvider).isLoading ? CircularProgressIndicator(color: Colors.white,) : Text("Login"),
+                    child:
+                        ref.watch(authControllerProvider).isLoading
+                            ? CircularProgressIndicator(color: Colors.white)
+                            : Text("Login"),
                   ),
                 ),
                 Gap(64),

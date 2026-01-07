@@ -6,17 +6,27 @@ import 'package:my_business_extra/global_state_providers/products_provider.dart'
 import 'package:my_business_extra/global_state_providers/user_factories_provider.dart';
 import 'package:my_business_extra/global_state_providers/warehouse_provider.dart';
 
+enum LoadingStatus {
+  userLoading,
+  productsLoading,
+  factoriesLoading,
+  demandsLoading,
+  warehouseLoading,
+  userFactoriesLoading,
+  done,
+}
+
 final loadInitialDataProvider =
-    AsyncNotifierProvider<LoadInitialDataNotifier, void>(
+    AsyncNotifierProvider<LoadInitialDataNotifier, LoadingStatus>(
       LoadInitialDataNotifier.new,
     );
 
-class LoadInitialDataNotifier extends AsyncNotifier<void> {
+class LoadInitialDataNotifier extends AsyncNotifier<LoadingStatus> {
   // To initialize providers and make the load all the necesarry data from internet
   // when the app is launched. This is used in loading_page.dart
 
   @override
-  Future<void> build() async {
+  Future<LoadingStatus> build() async {
     // The currentUser must always be loaded first
     //becase its id is used to load all the other data below.
     final currentUser = await ref.watch(currentUserProvider.future);
@@ -38,5 +48,7 @@ class LoadInitialDataNotifier extends AsyncNotifier<void> {
     print("user factories loaded");
 
     print("Everything loaded");
+
+    return LoadingStatus.done;
   }
 }

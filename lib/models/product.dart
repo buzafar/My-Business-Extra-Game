@@ -27,5 +27,7 @@ class Product extends BaseProduct {
     );
   }
 
+  
+
 
 }
