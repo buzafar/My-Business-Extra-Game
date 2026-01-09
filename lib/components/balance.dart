@@ -9,7 +9,7 @@ import 'package:my_business_extra/global_state_providers/current_user_provider.d
 import '../helpers/helper_functions.dart';
 
 class BalanceChange {
-  int secondsRemaining = 3;
+  int secondsRemaining = 5;
   num change;
 
   BalanceChange(this.change);
@@ -58,9 +58,9 @@ class _BalanceCounterState extends ConsumerState<BalanceCounter>
     ).animate(_controller);
 
     // every balance change is listed out but each of them get removed after 3 seconds
-    Timer.periodic(Duration(seconds: 5), (_) {
+    Timer.periodic(Duration(seconds: 1), (_) {
       for (final bc in balanceChangesHistory) {
-        bc.secondsRemaining -= 5;
+        bc.secondsRemaining -= 1;
       }
 
       balanceChangesHistory.removeWhere((bc) => bc.secondsRemaining <= 0);
@@ -114,15 +114,16 @@ class _BalanceCounterState extends ConsumerState<BalanceCounter>
   Widget build(BuildContext context) {
     final textStyle = Theme.of(context).textTheme.titleMedium!.copyWith(
       color: _colorAnimation.value,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
     );
 
-    return Row(
-      children: [
-        Text(formatPrice(_animation.value), style: textStyle),
-        Gap(8),
-        Container(
-          child: Row(
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          Text(formatPrice(_animation.value), style: textStyle),
+          Gap(8),
+          Row(
             children: [
               for (var balanceChange in balanceChangesHistory)
                 Padding(
@@ -135,7 +136,7 @@ class _BalanceCounterState extends ConsumerState<BalanceCounter>
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
-                      "${formatPrice(balanceChange.change)}",
+                      "${formatPrice(balanceChange.change, addPlus: balanceChange.change > 0)}",
                       style: TextTheme.of(context).bodySmall!.copyWith(
                         color:
                             balanceChange.change < 0
@@ -148,8 +149,8 @@ class _BalanceCounterState extends ConsumerState<BalanceCounter>
                 ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

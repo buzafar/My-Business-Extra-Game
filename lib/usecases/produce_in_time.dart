@@ -44,7 +44,7 @@ class ProduceInTime {
 
     final price = userFactory.productionCost * userFactory.outputSlots;
 
-    // local update
+    // -------------------------    LOCAL UPDATE -----------------------------------------
     ref
         .read(warehouseProvider.notifier)
         .addProductToWarehouse(warehouseProduct);
@@ -53,7 +53,7 @@ class ProduceInTime {
         .updateLastProducedLocallyToNow(userFactory);
     ref.read(currentUserProvider.notifier).decreaseBalance(price.toDouble());
 
-    // server sync
+    // -------------------------   SERVER  UPDATE -----------------------------------------
     await Future.wait([
       ref
           .read(warehouseServiceProvider)

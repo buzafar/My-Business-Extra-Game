@@ -22,29 +22,32 @@ final loadInitialDataProvider =
     );
 
 class LoadInitialDataNotifier extends AsyncNotifier<LoadingStatus> {
-  // To initialize providers and make the load all the necesarry data from internet
+  // To initialize providers and make them load all the necesarry data from internet
   // when the app is launched. This is used in loading_page.dart
 
   @override
   Future<LoadingStatus> build() async {
     // The currentUser must always be loaded first
     //becase its id is used to load all the other data below.
-    final currentUser = await ref.watch(currentUserProvider.future);
+    final currentUser = await ref.read(currentUserProvider.future);
     print("currentUser loaded");
 
-    final products = await ref.watch(productsProvider.future);
+    final products = await ref.read(productsProvider.future);
     print("products loaded");
 
-    final factories = await ref.watch(factoriesProvider.future);
+    final factories = await ref.read(factoriesProvider.future);
     print("factories loaded");
 
-    final demands = await ref.watch(demandsProvider.future);
+    final demands = ref.read(demandsProvider);
     print("demands loaded");
 
-    final warehouse = await ref.watch(warehouseProvider.future);
+    // final demandsStream = await ref.read(demandsStreamProvider);
+    // print("demands stream loaded");
+
+    final warehouse = await ref.read(warehouseProvider.future);
     print("warehouse loaded");
 
-    final userFactories = await ref.watch(userFactoriesProvider.future);
+    final userFactories = await ref.read(userFactoriesProvider.future);
     print("user factories loaded");
 
     print("Everything loaded");

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:my_business_extra/global_state_providers/user_factories_provider.dart';
 import 'package:my_business_extra/global_state_providers/warehouse_provider.dart';
+import 'package:my_business_extra/helpers/assets.dart';
 import 'package:my_business_extra/models/product.dart';
 import 'package:my_business_extra/models/user_factory.dart';
 import 'package:my_business_extra/router/app_router.gr.dart';
@@ -135,7 +136,7 @@ class _FactoryProductItemState extends ConsumerState<FactoryProductItem> {
                     Padding(
                       padding: EdgeInsetsGeometry.all(8),
                       child: Image.asset(
-                        'assets/images/${widget.productBeingProduced.imageName}.png',
+                        '${Assets.productImagesSource}${widget.productBeingProduced.imageName}.png',
                         width: 40,
                         height: 40,
                       ),

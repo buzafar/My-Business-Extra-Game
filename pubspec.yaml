@@ -42,6 +42,9 @@ dependencies:
   intl: ^0.20.2
   lottie: ^3.3.2
   currency_formatter: ^2.3.0
+  number_formatter: ^0.0.2
+  audioplayers: ^6.5.1
+  my_progress_bar: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -69,10 +72,11 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - assets/
-     - assets/images/
+     - assets/app_images/
+     - assets/product_images/
      - assets/jsons/
      - assets/gifs/
+     - assets/sounds/
      - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

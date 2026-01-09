@@ -14,12 +14,4 @@ class ProductsNotifier extends AsyncNotifier<List<Product>> {
     // This is automatically called once when the provider is first read
     return ref.read(productsService).loadProducts();
   }
-
-  // Optional: if you want a manual reload function
-  Future<void> reloadProducts() async {
-    // set the state to loading
-    state = const AsyncValue.loading();
-    // fetch products
-    state = AsyncValue.data(await ref.read(productsService).loadProducts());
-  }
 }

@@ -3,17 +3,36 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:currency_formatter/currency_formatter.dart';
+import 'package:number_formatter/number_formatter.dart'
+    as numberFormatterPackage;
 
-String formatPrice(num price) {
-  final r = CurrencyFormatter.format(
+String formatPrice(
+  num price, {
+  bool addPlus = false,
+  bool showDollarSign = true,
+  bool compact = false,
+}) {
+  String r = CurrencyFormatter.format(
     price,
     CurrencyFormat.usd,
     enforceDecimals: true,
+    compact: compact,
   );
+
+  if (!showDollarSign) {
+    r = r.replaceAll(r"$", "");
+  }
+  if (addPlus) {
+    return "+ $r";
+  }
+
   return r;
 }
 
-String formatNumber(num number) {
+String formatNumber(num number, {compact = false}) {
+  // if compact, 12000 -> 12K, if not compact 12000 -> 12,000
+  if (compact) return numberFormatterPackage.formatNumber(number.toInt());
+
   final formatter = NumberFormat('###,###,###,###,###,###,###');
   return formatter.format(number);
 }

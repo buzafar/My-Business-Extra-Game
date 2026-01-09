@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:my_business_extra/models/demand.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -23,6 +25,27 @@ class DemandsService {
       print(e);
       return [];
     }
+  }
+
+  Stream<List<Demand>> streamDemands() {
+    return supabase
+        .from('demands')
+        .stream(primaryKey: ['id'])
+        .map((data) => data.map((map) => Demand.fromMap(map)).toList());
+  }
+
+  Future<void> increaseSupply(Demand demand, {required int newAmount}) async {
+    await supabase
+        .from('demands')
+        .update({"supply": newAmount})
+        .eq('id', demand.id);
+  }
+
+  Future<void> newPrice(Demand demand, {required double newPrice}) async {
+    await supabase
+        .from('demands')
+        .update({"product_price": newPrice})
+        .eq("id", demand.id);
   }
 }
 

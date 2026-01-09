@@ -1,11 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_riverpod/legacy.dart';
 import 'package:my_business_extra/services/user_service.dart';
 import '../models/user.dart';
 
 final currentUserProvider =
     AsyncNotifierProvider<CurrentUserNotifier, UserModel>(
-      CurrentUserNotifier.new,
+      () => CurrentUserNotifier(),
     );
 
 class CurrentUserNotifier extends AsyncNotifier<UserModel> {

@@ -35,7 +35,6 @@ class WarehouseNotifier extends AsyncNotifier<Warehouse> {
     return exists;
   }
 
-  /// Add or increase product quantity (IMMUTABLE)
   void addProductToWarehouse(WarehouseProduct newProduct) {
     final warehouse = state.value!;
 
@@ -52,6 +51,22 @@ class WarehouseNotifier extends AsyncNotifier<Warehouse> {
     }
 
     ref.read(warehouseNewProductAddedEventProvider.notifier).state = newProduct;
+
+    state = AsyncData(warehouse.copyWith());
+  }
+
+  void removeProductFromWarehouse(WarehouseProduct warehouseProduct) {
+    final warehouse = state.value!;
+
+    if (!doesProductExist(warehouseProduct)) return;
+
+    warehouse.warehouseProducts.forEach((e) {
+      if (e.productId == warehouseProduct.productId) {
+        e.quantity -= warehouseProduct.quantity;
+      }
+    });
+
+    warehouse.warehouseProducts.removeWhere((e) => e.quantity <= 0);
 
     state = AsyncData(warehouse.copyWith());
   }

@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:my_business_extra/components/floating_bubble_widget.dart';
 import 'package:my_business_extra/global_state_providers/products_provider.dart';
 import 'package:my_business_extra/global_state_providers/warehouse_provider.dart';
+import 'package:my_business_extra/helpers/assets.dart';
 import 'package:my_business_extra/helpers/helper_functions.dart';
 import 'package:my_business_extra/models/warehouse_product.dart';
 
@@ -38,6 +39,20 @@ class _WarehouseProductItemState extends ConsumerState<WarehouseProductItem> {
         product = e;
       }
     });
+
+    // every time a new product is added to the warehouse, show +1 bubble text and lighten the box
+    ref.listenManual(warehouseNewProductAddedEventProvider, (prev, next) {
+      if (!mounted) return;
+      if (next != null && next.productId == widget.warehouseProduct.productId) {
+        showNewProductPopup(quantity: next.quantity);
+        lighten = true;
+        setState(() {});
+        Timer(Duration(milliseconds: 200), () {
+          lighten = false;
+          setState(() {});
+        });
+      }
+    });
   }
 
   bool lighten = false;
@@ -58,23 +73,12 @@ class _WarehouseProductItemState extends ConsumerState<WarehouseProductItem> {
 
   @override
   Widget build(BuildContext context) {
-    // every time a new product is added to the warehouse, show +1 bubble text and lighten the box
-    ref.listen(warehouseNewProductAddedEventProvider, (prev, next) {
-      if (next != null && next.productId == widget.warehouseProduct.productId) {
-        showNewProductPopup(quantity: next.quantity);
-        lighten = true;
-        setState(() {});
-        Timer(Duration(milliseconds: 200), () {
-          lighten = false;
-          setState(() {});
-        });
-      }
-    });
-
     return GestureDetector(
       onTap: () {
         context.router.push(
-          SellProductRoute(warehouseProductId: widget.warehouseProduct.id!),
+          SellProductRoute(
+            warehouseProductId: widget.warehouseProduct.productId,
+          ),
         );
       },
       child: Column(
@@ -93,7 +97,7 @@ class _WarehouseProductItemState extends ConsumerState<WarehouseProductItem> {
                   padding: EdgeInsetsGeometry.all(16),
                   child: Image.asset(
                     key: _productKey,
-                    'assets/images/${product.imageName}.png',
+                    '${Assets.productImagesSource}${product.imageName}.png',
                     width: 40,
                     height: 40,
                   ),
@@ -110,7 +114,7 @@ class _WarehouseProductItemState extends ConsumerState<WarehouseProductItem> {
                         padding: EdgeInsetsGeometry.all(2),
                         child: Center(
                           child: Text(
-                            "${widget.warehouseProduct.quantity}",
+                            "${formatNumber(widget.warehouseProduct.quantity)}",
                             style: Theme.of(
                               context,
                             ).textTheme.labelSmall!.copyWith(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:my_business_extra/components/sectionTitleItem.dart';
+import 'package:my_business_extra/global_state_providers/demands_provider.dart';
 import 'package:my_business_extra/global_state_providers/products_provider.dart';
 import 'package:my_business_extra/helpers/assets.dart';
 import 'package:my_business_extra/helpers/helper_functions.dart';
@@ -9,9 +10,9 @@ import 'package:my_business_extra/models/demand.dart';
 import 'package:my_business_extra/models/product.dart';
 
 class DemandWidget extends ConsumerStatefulWidget {
-  const DemandWidget({super.key, required this.demand});
+  const DemandWidget({super.key, required this.demandId});
 
-  final Demand demand;
+  final int demandId;
 
   @override
   ConsumerState<DemandWidget> createState() => _DemandsWidgetState();
@@ -20,6 +21,7 @@ class DemandWidget extends ConsumerStatefulWidget {
 class _DemandsWidgetState extends ConsumerState<DemandWidget> {
   // the product of the demand
   late Product product;
+  late Demand demand;
 
   //progressbar values
   final double progressBarWidth = 400;
@@ -29,8 +31,14 @@ class _DemandsWidgetState extends ConsumerState<DemandWidget> {
   void initState() {
     super.initState();
 
+    ref.read(demandsProvider).forEach((d) {
+      if (d.id == widget.demandId) {
+        demand = d;
+      }
+    });
+
     ref.read(productsProvider).value!.forEach((p) {
-      if (p.id == widget.demand.productId) {
+      if (p.id == demand.productId) {
         product = p;
       }
     });
@@ -38,8 +46,15 @@ class _DemandsWidgetState extends ConsumerState<DemandWidget> {
 
   @override
   Widget build(BuildContext context) {
-    progressBarFilled =
-        (widget.demand.supply * progressBarWidth) / widget.demand.demand;
+    ref.watch(demandsProvider).forEach((d) {
+      if (d.id == widget.demandId) {
+        demand = d;
+      }
+    });
+
+    progressBarFilled = (demand.supply * progressBarWidth) / demand.demand;
+
+    final num difference = demand.productPrice - product.normalPrice;
 
     return Column(
       children: [
@@ -50,16 +65,38 @@ class _DemandsWidgetState extends ConsumerState<DemandWidget> {
             Row(
               children: [
                 Image.asset(
-                  "assets/images/${product.imageName}.png",
+                  "${Assets.productImagesSource}${product.imageName}.png",
                   width: 30,
                   height: 30,
                 ),
 
                 Gap(8),
 
-                Text(
-                  "${formatPrice(widget.demand.productPrice)}",
-                  style: TextTheme.of(context).bodySmall,
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "${formatPrice(demand.productPrice)}",
+                        style: TextTheme.of(context).bodySmall,
+                      ),
+                      TextSpan(
+                        text: " ",
+                        style: TextTheme.of(context).labelSmall,
+                      ),
+                      TextSpan(
+                        text: difference < 0 ? "-" : "+",
+                        style: TextTheme.of(context).labelSmall!.copyWith(
+                          color: difference < 0 ? Colors.red : Colors.green,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "${demand.productPrice - product.normalPrice}",
+                        style: TextTheme.of(context).labelSmall!.copyWith(
+                          color: difference < 0 ? Colors.red : Colors.green,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -67,7 +104,7 @@ class _DemandsWidgetState extends ConsumerState<DemandWidget> {
             Row(
               children: [
                 Text(
-                  " ${(widget.demand.supply / widget.demand.demand) * 100}% filled - ${formatNumber(widget.demand.supply)}/${formatNumber(widget.demand.demand)}",
+                  " ${((demand.supply / demand.demand) * 100).toStringAsFixed(2)}% filled - ${formatNumber(demand.supply, compact: true)}/${formatNumber(demand.demand, compact: true)}",
                   style: TextTheme.of(context).bodySmall,
                 ),
               ],

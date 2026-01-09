@@ -68,6 +68,19 @@ class WarehouseService {
     }
     await supabase.from('warehouse_products').insert(warehouseProduct.toMap());
   }
+
+  Future<void> removeProductFromWarehouse(
+    WarehouseProduct warehouseProduct,
+  ) async {
+    final productCheck = await doesProductExist(warehouseProduct);
+    if (!productCheck.exists) return;
+
+    await supabase
+        .from('warehouse_products')
+        .update({"quantity": productCheck.quantity - warehouseProduct.quantity})
+        .eq("warehouse_id", warehouseProduct.warehouseId)
+        .eq("product_id", warehouseProduct.productId);
+  }
 }
 
 final warehouseServiceProvider = Provider<WarehouseService>((ref) {

@@ -13,10 +13,10 @@ class CalculateAndProduce {
   /*
   This usecase is used for factory production when user opens
   the app for the first time after being offline.
-  It is used to calculate how much a factory has produced while user were offline.
+  It is used to calculate how much a factory has produced while the user was offline.
 
 
-  1. How much products has been produced while user were offline is calculated
+  1. How much products has been produced while the user was offline is calculated
   2. The calculated products are then added to the warehouse
   3. Set the lastTimeProducedLocally to now
   3. The balance of the user is decreased by userFactory.productionCost * howMuchToProduce
@@ -51,7 +51,7 @@ class CalculateAndProduce {
       quantity: howMuchToProduce,
     );
 
-    // local update
+    // -------------------------    LOCAL UPDATE -----------------------------------------
     ref
         .read(warehouseProvider.notifier)
         .addProductToWarehouse(warehouseProduct);
@@ -62,7 +62,7 @@ class CalculateAndProduce {
 
     ref.read(currentUserProvider.notifier).decreaseBalance(price.toDouble());
 
-    // server update
+    // -------------------------    SERVER UPDATE -----------------------------------------
     await Future.wait([
       ref
           .read(warehouseServiceProvider)

@@ -22,13 +22,14 @@ class TopInfoBar extends ConsumerWidget {
 
     return SafeArea(
       child: Container(
+        width: double.infinity,
         height: topBarInfoHeight,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceTint,
+          color: Theme.of(context).colorScheme.onPrimaryFixedVariant,
         ),
         child: Padding(
           padding: EdgeInsetsGeometry.symmetric(horizontal: screenPadding),
-          child: Row(children: [BalanceCounter(balance: userModel!.balance)]),
+          child: BalanceCounter(balance: userModel!.balance),
         ),
       ),
     );

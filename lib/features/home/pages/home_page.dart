@@ -31,7 +31,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final userFactories = ref.watch(userFactoriesProvider).value!;
-    final demands = ref.watch(demandsProvider).value!;
+    final demands = ref.watch(demandsProvider);
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -73,7 +73,7 @@ class HomePage extends ConsumerWidget {
                     for (var demand in demands)
                       Padding(
                         padding: EdgeInsetsGeometry.only(bottom: 16),
-                        child: DemandWidget(demand: demand),
+                        child: DemandWidget(demandId: demand.id),
                       ),
                   ],
                 ),
