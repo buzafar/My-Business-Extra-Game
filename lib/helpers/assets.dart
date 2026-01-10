@@ -4,6 +4,11 @@ class Assets {
   static final String warehouseImage = "${_appImagesSource}warehouse.png";
   static final String marketImage = "${_appImagesSource}market.png";
   static final String cityImage = '${_appImagesSource}city.png';
+  static final String liveImage = '${_appImagesSource}live_stream.png';
+  static final String officeImage = '${_appImagesSource}office.png';
+  static final String globalMarketImage =
+      '${_appImagesSource}global_market.png';
+  static final String factoryImage = '${_appImagesSource}factory.png';
 
   // --------------- PRODUCT IMAGES --------------
   static final String productImagesSource = "assets/product_images/";

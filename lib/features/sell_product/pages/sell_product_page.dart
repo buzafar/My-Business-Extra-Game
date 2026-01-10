@@ -99,10 +99,7 @@ class _SellProductPageState extends ConsumerState<SellProductPage> {
                 title: "City demand",
                 image: Image.asset(Assets.cityImage, width: 30, height: 30),
               ),
-              Padding(
-                padding: EdgeInsetsGeometry.symmetric(horizontal: 16),
-                child: DemandWidget(demandId: demand.id),
-              ),
+              DemandWidget(demandId: demand.id),
 
               Gap(16),
               Container(

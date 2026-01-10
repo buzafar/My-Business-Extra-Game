@@ -23,9 +23,15 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     /// routes go here
     AutoRoute(page: LoginRoute.page),
-    AutoRoute(page: HomeRoute.page, guards: [AuthGuard(ref)]),
     AutoRoute(page: SignupRoute.page),
     AutoRoute(page: SellProductRoute.page),
+    AutoRoute(
+      page: TabsRoute.page,
+      children: [
+        AutoRoute(page: HomeRoute.page, guards: [AuthGuard(ref)]),
+        AutoRoute(page: CityMarketRoute.page),
+      ],
+    ),
 
     // never go to loading page if user is not signed in. otherwise, it will cause null error and app crashes
     // therefore AuthGuard is a must;

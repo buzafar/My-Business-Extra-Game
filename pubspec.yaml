@@ -45,6 +45,7 @@ dependencies:
   number_formatter: ^0.0.2
   audioplayers: ^6.5.1
   my_progress_bar: ^2.1.0
+  slide_countdown: ^2.0.2
 
 dev_dependencies:
   flutter_test:

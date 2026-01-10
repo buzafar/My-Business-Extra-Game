@@ -18,7 +18,7 @@ class LoadingPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(loadInitialDataProvider, (prev, next) {
       next.whenData((_) {
-        context.router.replace(HomeRoute());
+        context.router.replace(TabsRoute());
       });
     });
 

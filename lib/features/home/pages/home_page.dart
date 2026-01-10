@@ -19,6 +19,7 @@ import 'package:my_business_extra/global_state_providers/products_provider.dart'
 import 'package:my_business_extra/global_state_providers/user_factories_provider.dart';
 import 'package:my_business_extra/global_state_providers/warehouse_provider.dart';
 import 'package:my_business_extra/models/warehouse_product.dart';
+import 'package:slide_countdown/slide_countdown.dart';
 
 import '../../../models/product.dart';
 import '../../../router/app_router.gr.dart';
@@ -68,6 +69,22 @@ class HomePage extends ConsumerWidget {
                         width: 25,
                         height: 25,
                       ),
+                    ),
+
+                    Row(
+                      children: [
+                        Text("The city will consume the supply in "),
+                        SlideCountdown(
+                          duration: Duration(days: 2),
+                          decoration: BoxDecoration(color: Colors.green),
+                        ),
+                      ],
+                    ),
+
+                    SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: Image.asset(Assets.liveImage),
                     ),
 
                     for (var demand in demands)
