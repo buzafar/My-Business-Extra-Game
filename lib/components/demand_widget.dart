@@ -12,9 +12,14 @@ import 'package:my_business_extra/models/demand.dart';
 import 'package:my_business_extra/models/product.dart';
 
 class DemandWidget extends ConsumerStatefulWidget {
-  const DemandWidget({super.key, required this.demandId});
+  const DemandWidget({
+    super.key,
+    required this.demandId,
+    this.externalPadding = 0,
+  });
 
   final int demandId;
+  final double externalPadding;
 
   @override
   ConsumerState<DemandWidget> createState() => _DemandsWidgetState();
@@ -50,9 +55,10 @@ class _DemandsWidgetState extends ConsumerState<DemandWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) {
       progressBarWidth =
           MediaQuery.of(context).size.width -
-          (screenPadding * 2) -
+          (DesignValues.screenPadding * 2) -
           imageSize -
-          spaceBetween;
+          spaceBetween -
+          widget.externalPadding;
       setState(() {});
     });
   }

@@ -10,7 +10,6 @@ import '../providers/auth_provider.dart';
 
 import 'package:auto_route/auto_route.dart';
 
-
 @RoutePage()
 class SignupPage extends ConsumerWidget {
   const SignupPage({super.key});
@@ -28,35 +27,48 @@ class SignupPage extends ConsumerWidget {
           if (user != null) {
             context.router.replace(LoginRoute());
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("✅ Account successfully created. Now you can log in"), behavior: SnackBarBehavior.floating,),
+              SnackBar(
+                content: Text(
+                  "✅ Account successfully created. Now you can log in",
+                ),
+                behavior: SnackBarBehavior.floating,
+              ),
             );
           }
-        }
+        },
       );
     });
-    
 
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsetsGeometry.all(screenPadding),
+          padding: EdgeInsetsGeometry.all(DesignValues.screenPadding),
           child: Center(
             child: Column(
               children: [
-                Text("Welcome to My Business Extra", style: Theme.of(context).textTheme.headlineLarge,),
+                Text(
+                  "Welcome to My Business Extra",
+                  style: Theme.of(context).textTheme.headlineLarge,
+                ),
                 Gap(32),
-                TextField(controller: email, decoration: const InputDecoration(labelText: "Email")),
+                TextField(
+                  controller: email,
+                  decoration: const InputDecoration(labelText: "Email"),
+                ),
                 Gap(24),
-                TextField(controller: password, obscureText: true, decoration: const InputDecoration(labelText: "Password")),
+                TextField(
+                  controller: password,
+                  obscureText: true,
+                  decoration: const InputDecoration(labelText: "Password"),
+                ),
                 Gap(48),
                 SizedBox(
                   width: double.infinity,
                   child: PrimaryButton(
                     onPressed: () {
-                      ref.read(authControllerProvider.notifier).signUp(
-                        email.text,
-                        password.text,
-                      );
+                      ref
+                          .read(authControllerProvider.notifier)
+                          .signUp(email.text, password.text);
                     },
                     text: "Sign up",
                   ),

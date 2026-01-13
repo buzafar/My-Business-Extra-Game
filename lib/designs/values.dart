@@ -1,3 +1,5 @@
-final double screenPadding = 16;
-final double topBarInfoHeight = 40;
-final double topPadding = topBarInfoHeight + 4;
+class DesignValues {
+  static final double screenPadding = 16;
+  static final double topBarInfoHeight = 40;
+  static final double topPadding = topBarInfoHeight + 4;
+}

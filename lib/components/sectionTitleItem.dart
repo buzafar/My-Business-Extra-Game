@@ -8,13 +8,15 @@ class SectionTitleItem extends StatelessWidget {
   const SectionTitleItem({
     super.key,
     required this.title,
-    required this.subtitle,
+    this.subtitle,
     required this.image,
+    this.subtitleWidget,
   });
 
   final String title;
-  final String subtitle;
+  final String? subtitle;
   final Image image;
+  final Widget? subtitleWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +37,25 @@ class SectionTitleItem extends StatelessWidget {
                   title,
                   style: TextTheme.of(
                     context,
-                  ).titleSmall!.copyWith(fontWeight: FontWeight.bold),
+                  ).labelMedium!.copyWith(fontWeight: FontWeight.bold),
                 ),
               ],
             ),
 
-            Text(subtitle, style: TextTheme.of(context).bodySmall),
+            if (subtitleWidget != null) subtitleWidget!,
+
+            if (subtitle != null)
+              Text(subtitle!, style: TextTheme.of(context).bodySmall),
           ],
         ),
 
         Gap(4),
-        Container(width: double.infinity, height: 2, color: Colors.green),
-        Gap(12),
+
+        Container(
+          width: double.infinity,
+          height: 2,
+          color: Theme.of(context).colorScheme.secondaryContainer,
+        ),
       ],
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:my_business_extra/components/base_padding.dart';
 import 'package:my_business_extra/components/demand_widget.dart';
 import 'package:my_business_extra/components/sectionTitleItem.dart';
 import 'package:my_business_extra/components/warehouse_product_item.dart';
@@ -74,12 +75,7 @@ class _SellProductPageState extends ConsumerState<SellProductPage> {
 
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsetsGeometry.only(
-            top: topPadding,
-            left: screenPadding,
-            right: screenPadding,
-          ),
+        child: BasePadding(
           child: Column(
             children: [
               Align(

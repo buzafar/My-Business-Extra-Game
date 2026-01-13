@@ -9,6 +9,9 @@ class Assets {
   static final String globalMarketImage =
       '${_appImagesSource}global_market.png';
   static final String factoryImage = '${_appImagesSource}factory.png';
+  static final String cityBigImage = '${_appImagesSource}city_big.png';
+  static final String cityBackgroundImage =
+      '${_appImagesSource}city_background.jpeg';
 
   // --------------- PRODUCT IMAGES --------------
   static final String productImagesSource = "assets/product_images/";

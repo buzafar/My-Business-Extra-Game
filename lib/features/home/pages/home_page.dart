@@ -36,12 +36,12 @@ class HomePage extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsetsGeometry.only(top: topPadding),
+          padding: EdgeInsetsGeometry.only(top: DesignValues.topPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsetsGeometry.all(screenPadding),
+                padding: EdgeInsetsGeometry.all(DesignValues.screenPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -53,12 +53,12 @@ class HomePage extends ConsumerWidget {
               ),
 
               Padding(
-                padding: EdgeInsetsGeometry.all(screenPadding),
+                padding: EdgeInsetsGeometry.all(DesignValues.screenPadding),
                 child: WarehouseWidget(),
               ),
 
               Padding(
-                padding: EdgeInsetsGeometry.all(screenPadding),
+                padding: EdgeInsetsGeometry.all(DesignValues.screenPadding),
                 child: Column(
                   children: [
                     SectionTitleItem(

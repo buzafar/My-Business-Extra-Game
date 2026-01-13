@@ -44,7 +44,7 @@ class LoginPage extends ConsumerWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsetsGeometry.all(screenPadding),
+          padding: EdgeInsetsGeometry.all(DesignValues.screenPadding),
           child: Center(
             child: Column(
               children: [
